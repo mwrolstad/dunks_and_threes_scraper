@@ -152,8 +152,8 @@ def scrape_games(year: int, month: int, day: int):
 
     game_date_num = "{year}{month}{day}".format(
         year=year,
-        month=month,
-        day=day,
+        month=str.zfill(month, 2),
+        day=str.zfill(day, 2),
     )
     # print("response.content", response.content)
     tree = html.fromstring(response.content)
@@ -196,17 +196,12 @@ def scrape_games(year: int, month: int, day: int):
                     "game_url": BASE_URL + game_url_ls[0].attrib["href"],
                     "away_team": away_team_link[0].text,
                     "home_team": home_team_link[0].text,
-                    "away_abrv": MLB_ABRV[game_dict["away_team"]],
-                    "home_abrv": MLB_ABRV[game_dict["home_team"]],
+                    "away_abrv": MLB_ABRV[away_team_link[0].text],
+                    "home_abrv": MLB_ABRV[home_team_link[0].text],
                     "pitcher_stats": [],
                     "hitter_stats": [],
                 }
                 print("About to gather the game data")
-
-                game_dict["away_team"] = away_team_link[0].text
-                game_dict["home_team"] = home_team_link[0].text
-                game_dict["away_abrv"] = MLB_ABRV[game_dict["away_team"]]
-                game_dict["home_abrv"] = MLB_ABRV[game_dict["home_team"]]
 
                 game_response = requests.get(game_dict["game_url"])
 
