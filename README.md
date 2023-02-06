@@ -12,7 +12,7 @@ An easy tool to scrape the game and preview data from baseball-reference.com
 ### Use as a command line:
 
 ```cmd
-python3 src/pfr_scraper/__init__.py --year 2022 --month 11 --day 4
+python3 src/pfr_scraper/__init__.py --year 2022 --month 11 --day 5
 ```
 
 ### Build package and import:
@@ -29,7 +29,7 @@ Once the pacakge is install locally, you can now run this script:
 from br_scraper import GameScraper
 import json
 game_scraper = GameScraper()
-stats = game_scraper.scrape_day(year=2022, month=11, day=4)
+stats = game_scraper.scrape_day(year=2022, month=11, day=5)
 print(json.dumps(stats[0], indent=2))
 {
   "game_date": "20221105",
