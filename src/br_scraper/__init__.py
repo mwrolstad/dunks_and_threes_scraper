@@ -10,6 +10,7 @@ import pandas as pd
 BASE_URL = "https://www.baseball-reference.com"
 MLB_ABRV = json.load(open(os.path.join(os.path.dirname(__file__), "mlb_abbreviations.json")))
 
+
 def convert_date_to_number(dt, override_year=None):
     try:
         yr = re.search("(20|19)[0-9]{2}", dt, re.IGNORECASE)
@@ -163,7 +164,7 @@ def scrape_games(year: int, month: int, day: int):
 
     if games_count > 0:
 
-        for game in range(1, games_count + 1): 
+        for game in range(1, games_count + 1):
             game_num = str(game)
 
             away_team_link = tree.xpath(
@@ -250,7 +251,7 @@ def scrape_games(year: int, month: int, day: int):
                         game_dict["pitcher_stats"] = game_dict["pitcher_stats"] + stats_df.to_dict(orient="records")
 
                 games_ls.append(game_dict)
-            
+
     return games_ls
 
 
@@ -261,6 +262,7 @@ class GameScraper:
         except Exception as e:
             print(f"An error occurred:\n{e}")
             return
+
     def scrape_preview(self):
         try:
             return scrape_previews()
@@ -276,9 +278,7 @@ def main(year: int, month: int, day: int):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Crawl the baseball-reference game result pages for a specific day."
-    )
+    parser = argparse.ArgumentParser(description="Crawl the baseball-reference game result pages for a specific day.")
     parser.add_argument(
         "--year",
         required=False,
