@@ -185,7 +185,9 @@ def scrape_games(year: int, month: int, day: int, proxies: Dict[str, str] = None
     print("Game URLs:\n" + str(game_urls))
 
     games_dict = {}
-    games_dict["game_date"] = "{year}{month}{day}".format(year=str(year), month=str(month).zfill(2), day=str(day).zfill(2))
+    games_dict["game_date"] = "{year}{month}{day}".format(
+        year=str(year), month=str(month).zfill(2), day=str(day).zfill(2)
+    )
     games_dict["games"] = []
 
     for url in [game_urls[0]]:
@@ -198,7 +200,6 @@ def scrape_games(year: int, month: int, day: int, proxies: Dict[str, str] = None
             game_tree = html.fromstring(resp.text)
 
             # get the date and derive team names
-            date_string = game_url[47:55]
             away_team = game_tree.xpath('//*[@id="content"]/div[2]/div[1]/div[1]/strong/a/text()')[0]
             home_team = game_tree.xpath('//*[@id="content"]/div[2]/div[2]/div[1]/strong/a/text()')[0]
 
@@ -209,98 +210,32 @@ def scrape_games(year: int, month: int, day: int, proxies: Dict[str, str] = None
             home_away = "away"  # away teams process first
 
             game_dict = {
+                "game_url": game_url,
                 "home_team": home_team,
                 "home_abrv": NBA_ABRV[home_team],
-                "home_stats": [],
                 "away_team": away_team,
                 "away_abrv": NBA_ABRV[away_team],
-                "away_stats": [],
-                "game_url": game_url,
+                "home_stats": {},
+                "away_stats": {},
             }
-            basic_stats_df = pd.DataFrame()
-            advanced_stats_df = pd.DataFrame()
 
             for l_df in list_dfs:
                 if len(l_df.columns) < 15:
                     print("Pass to next dataframe for processing...")
                     continue
 
-                game_dict[f"{home_away}_stats"] = {}
-
-                # if home_away == "away":
-                #     team = away_team
-                #     opp = home_team
-                # else:
-                #     team = home_team
-                #     opp = away_team
-
                 if basic_table is True:
-                    l_df = select_basic_columns(
-                        # add_game_date_url(
-                        #     add_team_name(
-                        #         cleanup_dataframes(get_columns(l_df, "basic")),
-                        #         team,
-                        #         opp,
-                        #     ),
-                        #     date_string,
-                        #     game_url,
-                        # )
-                        # add_team_name(
-                        #     cleanup_dataframes(get_columns(l_df, "basic")),
-                        #     team,
-                        #     opp,
-                        # )
-                        cleanup_dataframes(get_columns(l_df, "basic"))
-                    )
+                    l_df = select_basic_columns(cleanup_dataframes(get_columns(l_df, "basic")))
                     game_dict[f"{home_away}_stats"]["basic_stats"] = l_df.to_dict(orient="records")
-                    # game_dict[f"{home_away}_stats"].append(
-                    #     {
-                    #         "stat_type": "basic",
-                    #         "stats": l_df.to_dict(orient="records"),
-                    #     }
-                    # )
-                    # basic_stats_df = pd.concat([basic_stats_df, l_df])
                     basic_table = False  # process advanced next
 
                 elif len(l_df.columns) in [16, 17]:
-                    l_df = select_advanced_columns(
-                        # add_game_date_url(
-                        #     add_team_name(
-                        #         cleanup_dataframes(get_columns(l_df, "advanced")),
-                        #         team,
-                        #         opp,
-                        #     ),
-                        #     date_string,
-                        #     game_url,
-                        # )
-                        # add_team_name(
-                        #     cleanup_dataframes(get_columns(l_df, "advanced")),
-                        #     team,
-                        #     opp,
-                        # )
-                        cleanup_dataframes(get_columns(l_df, "advanced"))
-                    )
+                    l_df = select_advanced_columns(cleanup_dataframes(get_columns(l_df, "advanced")))
                     game_dict[f"{home_away}_stats"]["advanced_stats"] = l_df.to_dict(orient="records")
-                    # game_dict[f"{home_away}_stats"].append(
-                    #     {
-                    #         "stat_type": "advanced",
-                    #         f"{home_away}_stats": l_df.to_dict(orient="records"),
-                    #     }
-                    # )
-                    # advanced_stats_df = pd.concat([advanced_stats_df, l_df])
                     basic_table = True  # process basic next
                     home_away = "home"  # process home teams next
 
             games_dict["games"].append(game_dict)
-
-            # if len(basic_stats_df) > 0:
-            #     game_dict["basic_stats"] = basic_stats_df.to_dict(orient="records")
-            #     game_dict["advanced_stats"] = advanced_stats_df.to_dict(orient="records")
-            #     # basic_stats_dfs.append(basic_stats_df)
-            #     # advanced_stats_dfs.append(advanced_stats_df)
-            #     games_dict["games"].append(game_dict)
-            # else:
-            #     print("No games today")
 
         except Exception as e:
             print("Exception:", e)
