@@ -13,7 +13,6 @@ NBA_ABRV = json.load(open(os.path.join(os.path.dirname(__file__), "nba_abbreviat
 
 
 def cleanup_dataframes(data_df: pd.DataFrame):
-    print("cleanup_dataframes")
     # clean up the rows we dont need
     data_df = data_df[(data_df.NAME != "Reserves") & (data_df.NAME != "Team Totals") & (data_df.MP != "Not With Team")]
 
@@ -32,7 +31,6 @@ def cleanup_dataframes(data_df: pd.DataFrame):
 
 def select_basic_columns(df: pd.DataFrame):
     cols = [
-        # "TEAM_ABRV",
         "NAME",
         "FG",
         "FGA",
@@ -50,18 +48,12 @@ def select_basic_columns(df: pd.DataFrame):
         "PF",
         "PTS",
         "MINS",
-        # "TEAM",
-        # "OPPONENT",
-        # "OPP_ABRV",
-        # "GAME_DATE",
-        # "URL",
     ]
     return df[cols]
 
 
 def select_advanced_columns(df: pd.DataFrame):
     cols = [
-        # "TEAM_ABRV",
         "NAME",
         "MINS",
         "3PAr",
@@ -70,17 +62,11 @@ def select_advanced_columns(df: pd.DataFrame):
         "DRtg",
         "USG",
         "BPM",
-        # "TEAM",
-        # "GAME_DATE",
-        # "OPPONENT",
-        # "OPP_ABRV",
-        # "URL",
     ]
     return df[cols]
 
 
 def get_columns(df: pd.DataFrame, bsc_adv: str):
-    print("get_columns")
     if bsc_adv != "basic" and bsc_adv != "advanced":
         raise Exception("bsc_adv variable is not valid, only accepts basic and advanced")
 
@@ -129,15 +115,11 @@ def get_columns(df: pd.DataFrame, bsc_adv: str):
 
     # renaming the columns
     if bsc_adv == "basic":
-        print("Dataframe basic columns:", df.columns)
         df.columns = bsc_columns
-        print("Dataframe basic columns:", df.columns)
     elif bsc_adv == "advanced":
-        print("Dataframe advanced columns:", df.columns)
         if len(df.columns) == 16:
             df = df.assign(BPM=lambda x: None)
         df.columns = adv_columns
-        print("Dataframe advanced columns:", df.columns)
 
     return df
 
@@ -156,13 +138,12 @@ def add_team_name(team_df: pd.DataFrame, team_name: str, opp_name: str):
     return team_df
 
 
-def scrape_rosters(year: str, proxies: Dict[str, str] = None):
+def scrape_rosters(year: str, team_abrv: str = None, proxies: Dict[str, str] = None):
     game_url_template = "https://www.basketball-reference.com/teams/{team_abrv}/{year}.html"
-    # game_url = "https://www.basketball-reference.com/teams/ATL/2023.html"
 
     team_ls = []
 
-    for team_abrv in list(set(NBA_ABRV.values())):
+    for team_abrv in [team_abrv] if team_abrv else list(set(NBA_ABRV.values())):
         team_dict = {"team_abrv": team_abrv}
         game_url = game_url_template.format(year=year, team_abrv=team_abrv)
 
@@ -190,7 +171,7 @@ def scrape_games(year: int, month: int, day: int, proxies: Dict[str, str] = None
     )
     games_dict["games"] = []
 
-    for url in [game_urls[0]]:
+    for url in game_urls:
         try:
             game_url = f"https://www.basketball-reference.com{url}"
 
@@ -252,9 +233,9 @@ class GameScraper:
             print(f"An error occurred:\n{e}")
             return
 
-    def scrape_rosters(self, year: int, proxies: Dict[str, str] = None):
+    def scrape_rosters(self, year: int, team_abrv: str = None, proxies: Dict[str, str] = None):
         try:
-            return scrape_rosters(year=year, proxies=proxies)
+            return scrape_rosters(year=year, team_abrv=team_abrv, proxies=proxies)
         except Exception as e:
             print(f"An error occurred:\n{e}")
             return

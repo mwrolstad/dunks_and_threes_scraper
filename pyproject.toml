@@ -1,12 +1,14 @@
 [tool.poetry]
-name = "br_scraper"
-version = "0.1.1"
-description = "Package used to scrape NFL data on pro-football-reference.com"
-authors = ["Mason Wrolstad <mason.wrolstad@hotmail.com>"]
+name = "basketball_reference_scraper"
+version = "0.1.0"
+description = "Package used to scrape game and roster info from basketball-reference.com"
+authors = ["Mason Wrolstad <mason@surge.ai>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.10"
+pandas = "^1.5.3"
 requests = "^2.28.2"
+lxml = "^4.9.2"
 
 [tool.poetry.dev-dependencies]
 
