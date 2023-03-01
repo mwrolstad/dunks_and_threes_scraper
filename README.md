@@ -1,22 +1,20 @@
-# Baseball-Reference Scraper
-## basketball_reference_scraper
+# Dunks & Threes Scraper
+## dunks_and_threes_scraper
 
-An easy tool to scrape the game and roster data from basketball-reference.com
+An easy tool to scrape the data from dunksandthrees.com/
 
-* Simply provide the date variables to get game stats and data
+* Simply provide the year to scrape
   * `year`
-  * `month`
-  * `year`
-* Otherwise provide only the year to get the updated roster of a specific team.
+* This will give you the current statistics for the current year, or the year old stats for a previous year.
 
 ### Use as a command line:
 
 ```cmd
-# get game info
-python3 src/basketball_reference_scraper/__init__.py --year 2022 --month 11 --day 5
+# get stats info
+python3 src/dunks_and_threes_scraper/__init__.py --year 2023
 
-# get roster info
-python3 src/basketball_reference_scraper/__init__.py --year 2022
+# get previous year
+python3 src/dunks_and_threes_scraper/__init__.py --year 2019
 ```
 
 ### Build package and import:
