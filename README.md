@@ -35,7 +35,7 @@ stats = stats_scraper.scrape_stats(year=2023)
 print(json.dumps(stats, indent=2))
 [
   {
-    "id": 1610612745,
+    "id": 1610612745,           # unique ID
     "team_abrv": "HOU",         # team abbreviation
     "tot_gms": 60,              # total games played
     "wins": 13,                 # wins
@@ -69,21 +69,20 @@ print(json.dumps(stats, indent=2))
     "oast%": 0.564361,          # offensive field goals that were assisted
     "ostl%": 0.0719653,         # offensive steal %
     "oblk%": 0.0995228,         # offensive block %
-    # the following stats are similar to above, but from a defensive perspective
-    "defg%": 0.560692,          
-    "dto%": 0.128903,
-    "dor%": 0.240973,
-    "drtrt": 0.27699,
-    "drim%": 0.660312,
-    "dmid%": 0.418953,
-    "d3p%": 0.373248,
-    "dft%": 0.797952,
-    "drim": 0.327283,
-    "dmid": 0.227453,
-    "d3pt": 0.445264,
-    "dast%": 0.609264,
-    "dstl%": 0.0894553,
-    "dblk%": 0.10766
+    "defg%": 0.560692,          # defensive effective field goal %          
+    "dto%": 0.128903,           # defensive turnover %
+    "dor%": 0.240973,           # defensive offensive rebound %
+    "drtrt": 0.27699,           # defensive free throw rate
+    "drim%": 0.660312,          # defensive field goals made at the rim %
+    "dmid%": 0.418953,          # defensive field goals made from the mid range %
+    "d3p%": 0.373248,           # defensive three point make %
+    "dft%": 0.797952,           # defensive free throw make %
+    "drim": 0.327283,           # defensive field goals taken at the rim %
+    "dmid": 0.227453,           # defensive field goals taken from the mid range %
+    "d3pt": 0.445264,           # defensive field goals taken from three point line %
+    "dast%": 0.609264,          # defensive field goals that were assisted
+    "dstl%": 0.0894553,         # defensive steal %
+    "dblk%": 0.10766            # defensive block %
   },
   {
     "id": 1610612759,
