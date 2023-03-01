@@ -36,40 +36,41 @@ print(json.dumps(stats, indent=2))
 [
   {
     "id": 1610612745,
-    "team_abrv": "HOU",
-    "tot_gms": 60,
-    "wins": 13,
-    "losses": 47,
-    "wpct": "0.2167",
-    "seed": 15,
-    "aortg": 109.56,
-    "adrtg": 118.107,
-    "anet": -8.54659,
+    "team_abrv": "HOU",         # team abbreviation
+    "tot_gms": 60,              # total games played
+    "wins": 13,                 # wins
+    "losses": 47,               # losses
+    "wpct": "0.2167",           # win percentage
+    "seed": 15,                 # current seed
+    "aortg": 109.56,            # adjusted offensive rating
+    "adrtg": 118.107,           # adjusted defensive rating
+    "anet": -8.54659,           # adjusted net rating
     "idk": -0.5462188720703125,
-    "osos": -0.0518111,
-    "dsos": 0.444039,
-    "sos": 0.392228,
-    "ortg": 109.612,
-    "drtg": 118.551,
-    "net": -8.93882,
-    "pace": 99.7078,
-    "opl": 14.7428,
-    "dpl": 11.8122,
-    "oefg%": 0.51046,
-    "oto%": 0.15992,
-    "oor%": 0.29876,
-    "ortrt": 0.290614,
-    "orim%": 0.594243,
-    "omid%": 0.394148,
-    "o3p%": 0.325126,
-    "oft%": 0.754215,
-    "orim": 0.405956,
-    "omid": 0.218997,
-    "o3pt": 0.375047,
-    "oast%": 0.564361,
-    "ostl%": 0.0719653,
-    "oblk%": 0.0995228,
-    "defg%": 0.560692,
+    "osos": -0.0518111,         # offensive strength of schedule
+    "dsos": 0.444039,           # defensive strength of schedule
+    "sos": 0.392228,            # net strength of schedule
+    "ortg": 109.612,            # offensive rating
+    "drtg": 118.551,            # defensive rating
+    "net": -8.93882,            # net rating
+    "pace": 99.7078,            # possessions per 48 minutes
+    "opl": 14.7428,             # offensive posession length in seconds
+    "dpl": 11.8122,             # defensive posession length in seconds
+    "oefg%": 0.51046,           # offensive effective field goal %
+    "oto%": 0.15992,            # offensive turnover %
+    "oor%": 0.29876,            # offensive offensive rebound %
+    "ortrt": 0.290614,          # offensive free throw rate
+    "orim%": 0.594243,          # offensive field goals made at the rim %
+    "omid%": 0.394148,          # offensive field goals made from the mid range %
+    "o3p%": 0.325126,           # offensive three point make %
+    "oft%": 0.754215,           # offensive free throw make %
+    "orim": 0.405956,           # offensive field goals taken at the rim %
+    "omid": 0.218997,           # offensive field goals taken from the mid range %
+    "o3pt": 0.375047,           # offensive field goals taken from three point line %
+    "oast%": 0.564361,          # offensive field goals that were assisted
+    "ostl%": 0.0719653,         # offensive steal %
+    "oblk%": 0.0995228,         # offensive block %
+    # the following stats are similar to above, but from a defensive perspective
+    "defg%": 0.560692,          
     "dto%": 0.128903,
     "dor%": 0.240973,
     "drtrt": 0.27699,
