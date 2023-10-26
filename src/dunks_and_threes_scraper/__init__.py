@@ -7,19 +7,25 @@ import ast
 
 from typing import Dict
 
+# JSON_REGEX = re.compile("const data = (.*);")
 JSON_REGEX = re.compile("stats:(.*),ks:")
 
 
-def scrape_stats(year: str, proxies: Dict[str, str] = None):
-    url_template = "https://dunksandthrees.com/?season={year}"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0"}
-
-    r = requests.get(url=url_template.format(year=year), headers=headers, proxies=proxies)
-    j = re.findall(JSON_REGEX, r.text)
-
+def parse_html(html: str):
+    j = re.findall(JSON_REGEX, html)
     if len(j) > 0:
-        json_str = j[0].replace("z:", '"z":').replace("pctl:", '"pctl":').replace("rk:", '"rk":')
-        json_list = ast.literal_eval(json_str)
+        json_str = (
+            j[0]
+            .strip()
+            .replace("z:", '"z":')
+            .replace("pctl:", '"pctl":')
+            .replace("rk:", '"rk":')
+            .replace(",.", ",0.")
+            .replace(",-.", ",-0.")
+            .replace(":.", ":0.")
+            .replace(":-.", ":-0.")
+        )
+        json_list = json.loads(json_str)
         json_df = pd.DataFrame([json[0:48] for json in json_list])
         json_df.columns = [
             "id",
@@ -74,6 +80,14 @@ def scrape_stats(year: str, proxies: Dict[str, str] = None):
         return json_df.to_dict(orient="records")
     else:
         return []
+
+
+def scrape_stats(year: str, proxies: Dict[str, str] = None):
+    url_template = "https://dunksandthrees.com/?season={year}"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0"}
+
+    r = requests.get(url=url_template.format(year=year), headers=headers, proxies=proxies)
+    return parse_html(r.text)
 
 
 class StatScraper:
