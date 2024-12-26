@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dunks_and_threes_scraper"
-version = "0.1.4"
+version = "0.1.5"
 description = "Package used to scrape stats from dunksandthrees.com"
 authors = ["Mason Wrolstad <mason@surge.ai>"]
 
